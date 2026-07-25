@@ -1,68 +1,80 @@
 // ======================================
-// İREM & SERTAN DİJİTAL DAVETİYE
+// İREM & SERTAN DAVETİYE
+// script.js
 // ======================================
 
 // -------------------------------
 // LOADER
 // -------------------------------
 
-window.addEventListener("load", () => {
+window.addEventListener("load",()=>{
 
-    const loader = document.getElementById("loader");
+const loader=document.getElementById("loader");
 
-    setTimeout(() => {
+const hero=document.querySelector(".hero-content");
 
-        loader.style.opacity = "0";
-        loader.style.visibility = "hidden";
+hero.style.opacity="0";
+hero.style.transform="translateY(50px)";
 
-    }, 1200);
+setTimeout(()=>{
 
-});
+loader.style.opacity="0";
 
-// -------------------------------
-// HERO ANİMASYONU
-// -------------------------------
+hero.style.transition="1.2s ease";
+hero.style.opacity="1";
+hero.style.transform="translateY(0)";
 
-window.addEventListener("load", () => {
+setTimeout(()=>{
 
-    const hero = document.querySelector(".heroContent");
+loader.style.display="none";
 
-    hero.style.opacity = "0";
-    hero.style.transform = "translateY(60px)";
+},900);
 
-    setTimeout(() => {
-
-        hero.style.transition = "1.2s ease";
-        hero.style.opacity = "1";
-        hero.style.transform = "translateY(0px)";
-
-    }, 1300);
+},1200);
 
 });
 
 // -------------------------------
-// ZARF
+// ZARFI AÇ
 // -------------------------------
 
-const button = document.getElementById("openInvitation");
+const button=document.getElementById("openInvitation");
 
-const envelope = document.querySelector(".envelope");
+const envelope=document.querySelector(".envelope");
 
-const letter = document.querySelector(".letter");
+button.addEventListener("click",()=>{
 
-button.addEventListener("click", () => {
+button.disabled=true;
 
-    document.getElementById("envelopeSection").scrollIntoView({
+button.innerHTML="Açılıyor...";
 
-        behavior: "smooth"
+document.getElementById("envelopeSection").scrollIntoView({
 
-    });
+behavior:"smooth"
 
-    setTimeout(() => {
+});
 
-        envelope.classList.add("open");
+setTimeout(()=>{
 
-    }, 700);
+envelope.classList.add("open");
+
+},700);
+
+setTimeout(()=>{
+
+envelope.classList.add("float");
+
+},1800);
+
+setTimeout(()=>{
+
+document.getElementById("countdown").scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+},3200);
 
 });
 
@@ -70,213 +82,185 @@ button.addEventListener("click", () => {
 // GERİ SAYIM
 // -------------------------------
 
-const weddingDate = new Date("2026-08-23T18:00:00").getTime();
+const wedding=new Date("2026-08-23T18:00:00").getTime();
 
-function updateCountdown() {
+function countdown(){
 
-    const now = new Date().getTime();
+const now=new Date().getTime();
 
-    const distance = weddingDate - now;
+const distance=wedding-now;
 
-    if (distance <= 0) {
+if(distance<=0){
 
-        document.getElementById("days").textContent = "00";
-        document.getElementById("hours").textContent = "00";
-        document.getElementById("minutes").textContent = "00";
-        document.getElementById("seconds").textContent = "00";
+days.textContent="00";
+hours.textContent="00";
+minutes.textContent="00";
+seconds.textContent="00";
 
-        return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("days").textContent = days;
-
-    document.getElementById("hours").textContent = hours;
-
-    document.getElementById("minutes").textContent = minutes;
-
-    document.getElementById("seconds").textContent = seconds;
+return;
 
 }
 
-updateCountdown();
+const d=Math.floor(distance/(1000*60*60*24));
 
-setInterval(updateCountdown, 1000);
+const h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
 
+const m=Math.floor((distance%(1000*60*60))/(1000*60));
+
+const s=Math.floor((distance%(1000*60))/1000);
+
+days.textContent=String(d).padStart(2,"0");
+hours.textContent=String(h).padStart(2,"0");
+minutes.textContent=String(m).padStart(2,"0");
+seconds.textContent=String(s).padStart(2,"0");
+
+}
+
+const days=document.getElementById("days");
+const hours=document.getElementById("hours");
+const minutes=document.getElementById("minutes");
+const seconds=document.getElementById("seconds");
+
+countdown();
+
+setInterval(countdown,1000);
 // -------------------------------
-// FOTOĞRAF ANİMASYONU
+// SCROLL ANİMASYONLARI
 // -------------------------------
 
-const photos = document.querySelectorAll(".photos img");
+const sections=document.querySelectorAll("section");
 
-const photoObserver = new IntersectionObserver((entries) => {
+const sectionObserver=new IntersectionObserver((entries)=>{
 
-    entries.forEach(entry => {
+entries.forEach(entry=>{
 
-        if (entry.isIntersecting) {
+if(entry.isIntersecting){
 
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0px)";
+entry.target.classList.add("show");
 
-        }
-
-    });
-
-}, {
-
-    threshold: 0.2
+}
 
 });
 
-photos.forEach(photo => {
-
-    photo.style.opacity = "0";
-
-    photo.style.transform = "translateY(80px)";
-
-    photo.style.transition = "1s";
-
-    photoObserver.observe(photo);
-
+},{
+threshold:0.15
 });
 
-// -------------------------------
-// SECTION ANİMASYONU
-// -------------------------------
+sections.forEach(section=>{
 
-const sections = document.querySelectorAll("section");
-
-const sectionObserver = new IntersectionObserver((entries) => {
-
-    entries.forEach(entry => {
-
-        if (entry.isIntersecting) {
-
-            entry.target.animate(
-
-                [
-
-                    {
-
-                        opacity: 0,
-
-                        transform: "translateY(60px)"
-
-                    },
-
-                    {
-
-                        opacity: 1,
-
-                        transform: "translateY(0)"
-
-                    }
-
-                ],
-
-                {
-
-                    duration: 900,
-
-                    fill: "forwards",
-
-                    easing: "ease"
-
-                }
-
-            );
-
-            sectionObserver.unobserve(entry.target);
-
-        }
-
-    });
-
-}, {
-
-    threshold: 0.15
-
-});
-
-sections.forEach(section => {
-
-    section.style.opacity = "0";
-
-    sectionObserver.observe(section);
+sectionObserver.observe(section);
 
 });
 
 // -------------------------------
-// BUTON EFEKTİ
+// GALERİ ANİMASYONU
 // -------------------------------
 
-button.addEventListener("mousedown", () => {
+const photos=document.querySelectorAll(".photos img");
 
-    button.style.transform = "scale(.96)";
+const photoObserver=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.style.opacity="1";
+entry.target.style.transform="translateY(0) scale(1)";
+
+}
 
 });
 
-button.addEventListener("mouseup", () => {
-
-    button.style.transform = "";
-
+},{
+threshold:0.2
 });
 
-button.addEventListener("mouseleave", () => {
+photos.forEach(photo=>{
 
-    button.style.transform = "";
+photo.style.opacity="0";
+photo.style.transform="translateY(60px) scale(.95)";
+photo.style.transition="1s";
+
+photoObserver.observe(photo);
 
 });
 
 // -------------------------------
-// HAFİF DAVETİYE HAREKETİ
+// LIGHTBOX
 // -------------------------------
 
-setTimeout(() => {
+const lightbox=document.createElement("div");
 
-    if (envelope.classList.contains("open")) {
+lightbox.id="lightbox";
 
-        letter.animate(
+lightbox.innerHTML=`
+<img id="lightboxImage">
+`;
 
-            [
+document.body.appendChild(lightbox);
 
-                {
+const lightboxImage=document.getElementById("lightboxImage");
 
-                    transform: "translateX(-50%) translateY(-270px)"
+photos.forEach(photo=>{
 
-                },
+photo.addEventListener("click",()=>{
 
-                {
+lightbox.style.display="flex";
 
-                    transform: "translateX(-50%) translateY(-280px)"
+setTimeout(()=>{
 
-                },
+lightbox.style.opacity="1";
 
-                {
+},20);
 
-                    transform: "translateX(-50%) translateY(-270px)"
+lightboxImage.src=photo.src;
 
-                }
+});
 
-            ],
+});
 
-            {
+lightbox.addEventListener("click",()=>{
 
-                duration: 3000,
+lightbox.style.opacity="0";
 
-                iterations: Infinity
+setTimeout(()=>{
 
-            }
+lightbox.style.display="none";
 
-        );
+},300);
 
-    }
+});
 
-}, 2500);
+// -------------------------------
+// BUTON HOVER EFEKTİ
+// -------------------------------
+
+button.addEventListener("mouseenter",()=>{
+
+button.style.boxShadow="0 25px 45px rgba(202,162,77,.45)";
+
+});
+
+button.addEventListener("mouseleave",()=>{
+
+button.style.boxShadow="0 20px 40px rgba(0,0,0,.25)";
+
+});
+
+// -------------------------------
+// PARALLAX
+// -------------------------------
+
+window.addEventListener("scroll",()=>{
+
+const scroll=window.scrollY;
+
+document.querySelector(".hero").style.backgroundPositionY=(scroll*0.4)+"px";
+
+});
+
+// -------------------------------
+// KONSOL
+// -------------------------------
+
+console.log("İrem & Sertan Dijital Davetiye Yüklendi ❤️");
