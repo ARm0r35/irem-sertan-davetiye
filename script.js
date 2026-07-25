@@ -1,178 +1,282 @@
 // ======================================
 // İREM & SERTAN DİJİTAL DAVETİYE
-// Version 3.3 (Tam Tamına Düzeltilmiş Sürüm)
 // ======================================
 
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // -------------------------------
-    // 1. LOADER (YÜKLEME EKRANI KALDIRMA)
-    // -------------------------------
+// -------------------------------
+// LOADER
+// -------------------------------
+
+window.addEventListener("load", () => {
+
     const loader = document.getElementById("loader");
-    
-    const removeLoader = () => {
-        if (loader && loader.style.display !== "none") {
-            loader.style.opacity = "0";
-            setTimeout(() => {
-                loader.style.display = "none";
-            }, 800);
-        }
-    };
 
-    // Sayfa tamamen hazır olduğunda loader'ı kaldır
-    if (document.readyState === "complete") {
-        removeLoader();
-    } else {
-        window.addEventListener("load", removeLoader);
-    }
+    setTimeout(() => {
 
-    // Güvenlik önlemi: Eğer tarayıcı yükleme olayı takılırsa en geç 2 saniyede kapat
-    setTimeout(removeLoader, 2000);
+        loader.style.opacity = "0";
+        loader.style.visibility = "hidden";
 
-    // -------------------------------
-    // 2. ZARF AÇMA AKSİYONU
-    // -------------------------------
-    const btn = document.getElementById("startInvitation");
-    const envelope = document.querySelector(".envelope");
+    }, 1200);
 
-    if (btn && envelope) {
-        btn.addEventListener("click", () => {
-            btn.disabled = true;
-            btn.innerHTML = "Açılıyor...";
-            
-            // Zarf açılma animasyonunu başlat
-            envelope.classList.add("open");
-
-            // Animasyon tamamlanınca (1.8s sonra) pürüzsüz sallanmayı başlat
-            setTimeout(() => {
-                envelope.classList.add("floating");
-            }, 1800);
-
-            // Zarf açıldıktan sonra sayfayı geri sayım alanına kaydır
-            setTimeout(() => {
-                const countdownSection = document.getElementById("countdown");
-                if (countdownSection) {
-                    countdownSection.scrollIntoView({ behavior: "smooth" });
-                }
-            }, 2600);
-        });
-
-        // Buton parlamasını tetikleyen sürekli animasyon döngüsü
-        setInterval(() => {
-            btn.style.transition = "box-shadow 1s ease";
-            btn.style.boxShadow = "0 0 30px rgba(202,162,77,0.7)";
-            setTimeout(() => {
-                btn.style.boxShadow = "0 20px 40px rgba(0,0,0,.25)";
-            }, 1000);
-        }, 2200);
-    }
-
-    // -------------------------------
-    // 3. GERİ SAYIM SAYACI
-    // -------------------------------
-    const targetDate = new Date("2026-08-23T18:00:00").getTime();
-
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        const daysEl = document.getElementById("days");
-        const hoursEl = document.getElementById("hours");
-        const minutesEl = document.getElementById("minutes");
-        const secondsEl = document.getElementById("seconds");
-
-        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
-
-        if (distance <= 0) {
-            daysEl.textContent = "00";
-            hoursEl.textContent = "00";
-            minutesEl.textContent = "00";
-            secondsEl.textContent = "00";
-            return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        daysEl.textContent = String(days).padStart(2, "0");
-        hoursEl.textContent = String(hours).padStart(2, "0");
-        minutesEl.textContent = String(minutes).padStart(2, "0");
-        secondsEl.textContent = String(seconds).padStart(2, "0");
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // -------------------------------
-    // 4. SCROLL ANİMASYONLARI (KAYDIRMA DETEKTÖRÜ)
-    // -------------------------------
-    const sections = document.querySelectorAll("section");
-    
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("show");
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-    } else {
-        sections.forEach(section => section.classList.add("show"));
-    }
-
-    // -------------------------------
-    // 5. LIGHTBOX (GÖRSEL BÜYÜTME MODAL YAPISI)
-    // -------------------------------
-    const galleryImages = document.querySelectorAll(".photos img");
-    const lightbox = document.createElement("div");
-    lightbox.id = "lightbox";
-    lightbox.innerHTML = `<img id="lightboxImage" alt="Büyütülmüş Görsel">`;
-    document.body.appendChild(lightbox);
-
-    const lightboxImage = document.getElementById("lightboxImage");
-
-    galleryImages.forEach(img => {
-        img.addEventListener("click", () => {
-            lightbox.style.display = "flex";
-            setTimeout(() => {
-                lightbox.style.opacity = "1";
-            }, 10);
-            if (lightboxImage) lightboxImage.src = img.src;
-        });
-    });
-
-    const closeLightbox = () => {
-        lightbox.style.opacity = "0";
-        setTimeout(() => {
-            lightbox.style.display = "none";
-        }, 300);
-    };
-
-    lightbox.addEventListener("click", closeLightbox);
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && lightbox.style.display === "flex") {
-            closeLightbox();
-        }
-    });
-
-    // -------------------------------
-    // 6. PARALLAX KAPAK ARKA PLAN EFEKTİ
-    // -------------------------------
-    const hero = document.querySelector(".hero");
-    if (hero) {
-        window.addEventListener("scroll", () => {
-            const scrolled = window.scrollY;
-            hero.style.backgroundPositionY = (scrolled * 0.35) + "px";
-        }, { passive: true });
-    }
-
-    console.log("%cİrem ❤️ Sertan Dijital Davetiye Başarıyla Yüklendi.", "color:#caa24d;font-size:16px;font-weight:bold;");
 });
+
+// -------------------------------
+// HERO ANİMASYONU
+// -------------------------------
+
+window.addEventListener("load", () => {
+
+    const hero = document.querySelector(".heroContent");
+
+    hero.style.opacity = "0";
+    hero.style.transform = "translateY(60px)";
+
+    setTimeout(() => {
+
+        hero.style.transition = "1.2s ease";
+        hero.style.opacity = "1";
+        hero.style.transform = "translateY(0px)";
+
+    }, 1300);
+
+});
+
+// -------------------------------
+// ZARF
+// -------------------------------
+
+const button = document.getElementById("openInvitation");
+
+const envelope = document.querySelector(".envelope");
+
+const letter = document.querySelector(".letter");
+
+button.addEventListener("click", () => {
+
+    document.getElementById("envelopeSection").scrollIntoView({
+
+        behavior: "smooth"
+
+    });
+
+    setTimeout(() => {
+
+        envelope.classList.add("open");
+
+    }, 700);
+
+});
+
+// -------------------------------
+// GERİ SAYIM
+// -------------------------------
+
+const weddingDate = new Date("2026-08-23T18:00:00").getTime();
+
+function updateCountdown() {
+
+    const now = new Date().getTime();
+
+    const distance = weddingDate - now;
+
+    if (distance <= 0) {
+
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").textContent = days;
+
+    document.getElementById("hours").textContent = hours;
+
+    document.getElementById("minutes").textContent = minutes;
+
+    document.getElementById("seconds").textContent = seconds;
+
+}
+
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
+
+// -------------------------------
+// FOTOĞRAF ANİMASYONU
+// -------------------------------
+
+const photos = document.querySelectorAll(".photos img");
+
+const photoObserver = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0px)";
+
+        }
+
+    });
+
+}, {
+
+    threshold: 0.2
+
+});
+
+photos.forEach(photo => {
+
+    photo.style.opacity = "0";
+
+    photo.style.transform = "translateY(80px)";
+
+    photo.style.transition = "1s";
+
+    photoObserver.observe(photo);
+
+});
+
+// -------------------------------
+// SECTION ANİMASYONU
+// -------------------------------
+
+const sections = document.querySelectorAll("section");
+
+const sectionObserver = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.animate(
+
+                [
+
+                    {
+
+                        opacity: 0,
+
+                        transform: "translateY(60px)"
+
+                    },
+
+                    {
+
+                        opacity: 1,
+
+                        transform: "translateY(0)"
+
+                    }
+
+                ],
+
+                {
+
+                    duration: 900,
+
+                    fill: "forwards",
+
+                    easing: "ease"
+
+                }
+
+            );
+
+            sectionObserver.unobserve(entry.target);
+
+        }
+
+    });
+
+}, {
+
+    threshold: 0.15
+
+});
+
+sections.forEach(section => {
+
+    section.style.opacity = "0";
+
+    sectionObserver.observe(section);
+
+});
+
+// -------------------------------
+// BUTON EFEKTİ
+// -------------------------------
+
+button.addEventListener("mousedown", () => {
+
+    button.style.transform = "scale(.96)";
+
+});
+
+button.addEventListener("mouseup", () => {
+
+    button.style.transform = "";
+
+});
+
+button.addEventListener("mouseleave", () => {
+
+    button.style.transform = "";
+
+});
+
+// -------------------------------
+// HAFİF DAVETİYE HAREKETİ
+// -------------------------------
+
+setTimeout(() => {
+
+    if (envelope.classList.contains("open")) {
+
+        letter.animate(
+
+            [
+
+                {
+
+                    transform: "translateX(-50%) translateY(-270px)"
+
+                },
+
+                {
+
+                    transform: "translateX(-50%) translateY(-280px)"
+
+                },
+
+                {
+
+                    transform: "translateX(-50%) translateY(-270px)"
+
+                }
+
+            ],
+
+            {
+
+                duration: 3000,
+
+                iterations: Infinity
+
+            }
+
+        );
+
+    }
+
+}, 2500);
