@@ -3,6 +3,7 @@
 =================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
 /* ===================================
    RESET
 =================================== */
@@ -18,29 +19,28 @@ html{
 }
 
 body{
-
     font-family:"Poppins",sans-serif;
-
-    background:#f8f4ed;
-
+    background:#f7f2ea;
     color:#333;
-
     overflow-x:hidden;
-
 }
 
 img{
-
     display:block;
-
     max-width:100%;
-
 }
 
-section{
+a{
+    text-decoration:none;
+}
 
-    width:100%;
+::-webkit-scrollbar{
+    width:10px;
+}
 
+::-webkit-scrollbar-thumb{
+    background:#caa24d;
+    border-radius:20px;
 }
 
 /* ===================================
@@ -50,15 +50,12 @@ section{
 #loader{
 
     position:fixed;
-
     inset:0;
 
-    background:#f8f4ed;
+    background:#f7f2ea;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
     z-index:99999;
@@ -67,7 +64,7 @@ section{
 
 }
 
-.loaderLogo{
+.loader-logo{
 
     font-family:"Great Vibes",cursive;
 
@@ -82,9 +79,7 @@ section{
 @keyframes pulse{
 
 0%{transform:scale(1);}
-
 50%{transform:scale(1.08);}
-
 100%{transform:scale(1);}
 
 }
@@ -94,6 +89,8 @@ section{
 =================================== */
 
 .hero{
+
+    position:relative;
 
     height:100vh;
 
@@ -107,8 +104,6 @@ section{
 
     align-items:center;
 
-    position:relative;
-
 }
 
 .overlay{
@@ -119,27 +114,29 @@ section{
 
     background:rgba(0,0,0,.45);
 
+    backdrop-filter:blur(2px);
+
 }
 
-.heroContent{
+.hero-content{
 
     position:relative;
 
     z-index:5;
 
+    width:90%;
+
+    max-width:750px;
+
     display:flex;
 
     flex-direction:column;
 
-    align-items:center;
-
     justify-content:center;
 
+    align-items:center;
+
     text-align:center;
-
-    width:90%;
-
-    max-width:700px;
 
     color:white;
 
@@ -147,9 +144,9 @@ section{
 
 .logo{
 
-    width:140px;
+    width:150px;
 
-    height:140px;
+    height:150px;
 
     border:2px solid #d7b25f;
 
@@ -161,15 +158,15 @@ section{
 
     align-items:center;
 
-    font-size:56px;
+    font-family:"Cormorant Garamond",serif;
+
+    font-size:58px;
 
     color:#d7b25f;
 
-    font-family:"Cormorant Garamond",serif;
+    backdrop-filter:blur(8px);
 
     margin-bottom:35px;
-
-    backdrop-filter:blur(6px);
 
 }
 
@@ -177,11 +174,13 @@ section{
 
     font-family:"Great Vibes",cursive;
 
-    font-size:92px;
+    font-size:95px;
 
     font-weight:400;
 
     margin-bottom:15px;
+
+    text-shadow:0 8px 20px rgba(0,0,0,.4);
 
 }
 
@@ -191,13 +190,13 @@ section{
 
     letter-spacing:4px;
 
-    margin-bottom:40px;
+    margin-bottom:45px;
 
 }
 
 #openInvitation{
 
-    padding:18px 45px;
+    padding:18px 48px;
 
     border:none;
 
@@ -212,6 +211,8 @@ section{
     cursor:pointer;
 
     transition:.35s;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
 
 }
 
@@ -230,6 +231,8 @@ section{
 
     min-height:100vh;
 
+    background:#f7f2ea;
+
     display:flex;
 
     justify-content:center;
@@ -237,8 +240,6 @@ section{
     align-items:center;
 
     padding:100px 20px;
-
-    background:#f8f4ed;
 
 }
 
@@ -250,33 +251,31 @@ section{
 
     max-width:95%;
 
-    height:600px;
+    height:620px;
 
     perspective:2000px;
 
 }
 
-/* Zarf Gövdesi */
+/* Arka Gövde */
 
-.back{
+.envelope-back{
 
     position:absolute;
 
     inset:0;
 
-    background:#f1dfb9;
+    background:#f4e2b7;
 
-    border-radius:14px;
-
-    overflow:hidden;
+    border-radius:12px;
 
     box-shadow:0 30px 70px rgba(0,0,0,.18);
 
 }
 
-.back::before{
+/* Alt Kapak */
 
-    content:"";
+.envelope-bottom{
 
     position:absolute;
 
@@ -288,15 +287,17 @@ section{
 
     height:100%;
 
-    background:#e6cf98;
+    background:#ead29a;
 
-    clip-path:polygon(0 100%,50% 38%,100% 100%);
+    clip-path:polygon(0 100%,50% 35%,100% 100%);
+
+    z-index:2;
 
 }
 
 /* Sol Kanat */
 
-.left{
+.envelope-left{
 
     position:absolute;
 
@@ -308,17 +309,17 @@ section{
 
     height:100%;
 
-    background:#ecd9ab;
+    background:#efdcb0;
 
     clip-path:polygon(0 0,100% 50%,0 100%);
 
-    z-index:3;
+    z-index:4;
 
 }
 
 /* Sağ Kanat */
 
-.right{
+.envelope-right{
 
     position:absolute;
 
@@ -330,17 +331,17 @@ section{
 
     height:100%;
 
-    background:#ecd9ab;
+    background:#efdcb0;
 
     clip-path:polygon(100% 0,0 50%,100% 100%);
 
-    z-index:3;
+    z-index:4;
 
 }
 
 /* Üst Kapak */
 
-.top{
+.envelope-top{
 
     position:absolute;
 
@@ -352,13 +353,13 @@ section{
 
     height:52%;
 
-    background:#d7b25f;
+    background:#d9b66b;
 
     clip-path:polygon(0 0,100% 0,50% 100%);
 
     transform-origin:top;
 
-    transition:1.2s;
+    transition:1.2s ease;
 
     z-index:10;
 
@@ -372,15 +373,15 @@ section{
 
     left:50%;
 
-    bottom:18px;
+    bottom:20px;
 
     width:92%;
 
     transform:translateX(-50%);
 
-    transition:1.8s;
+    transition:1.8s ease;
 
-    z-index:2;
+    z-index:3;
 
 }
 
@@ -390,13 +391,13 @@ section{
 
     border-radius:14px;
 
-    box-shadow:0 20px 45px rgba(0,0,0,.18);
+    box-shadow:0 20px 45px rgba(0,0,0,.20);
 
 }
 
 /* Açılınca */
 
-.envelope.open .top{
+.envelope.open .envelope-top{
 
     transform:rotateX(180deg);
 
@@ -404,9 +405,39 @@ section{
 
 .envelope.open .letter{
 
-    transform:translateX(-50%) translateY(-270px);
+    transform:translateX(-50%) translateY(-280px);
 
-    z-index:11;
+    z-index:12;
+
+}
+
+/* Davetiye Hafif Sallansın */
+
+@keyframes floating{
+
+0%{
+
+transform:translateX(-50%) translateY(-280px);
+
+}
+
+50%{
+
+transform:translateX(-50%) translateY(-292px);
+
+}
+
+100%{
+
+transform:translateX(-50%) translateY(-280px);
+
+}
+
+}
+
+.envelope.open.float .letter{
+
+animation:floating 3s ease-in-out infinite;
 
 }
 /* ===================================
@@ -425,11 +456,11 @@ section{
 
 #countdown h2{
 
-    font-size:56px;
-
-    color:#b88930;
+    font-size:58px;
 
     font-family:"Cormorant Garamond",serif;
+
+    color:#b88930;
 
     margin-bottom:60px;
 
@@ -443,13 +474,13 @@ section{
 
     align-items:center;
 
-    flex-wrap:wrap;
-
     gap:25px;
+
+    flex-wrap:wrap;
 
 }
 
-.card{
+.box{
 
     width:170px;
 
@@ -465,25 +496,25 @@ section{
 
 }
 
-.card:hover{
+.box:hover{
 
     transform:translateY(-8px);
 
 }
 
-.card span{
+.box span{
 
     display:block;
 
     font-size:52px;
 
-    color:#caa24d;
-
     font-weight:bold;
+
+    color:#caa24d;
 
 }
 
-.card small{
+.box small{
 
     font-size:18px;
 
@@ -499,7 +530,7 @@ section{
 
     padding:120px 20px;
 
-    background:#f8f4ed;
+    background:#f7f2ea;
 
 }
 
@@ -525,7 +556,7 @@ section{
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
 
     gap:35px;
 
@@ -534,6 +565,10 @@ section{
 .photos img{
 
     width:100%;
+
+    height:420px;
+
+    object-fit:cover;
 
     border-radius:20px;
 
@@ -550,6 +585,7 @@ section{
     transform:scale(1.03);
 
 }
+
 /* ===================================
    KONUM
 =================================== */
@@ -568,9 +604,9 @@ section{
 
     font-size:56px;
 
-    font-family:"Cormorant Garamond",serif;
-
     color:#b88930;
+
+    font-family:"Cormorant Garamond",serif;
 
     margin-bottom:20px;
 
@@ -596,8 +632,6 @@ section{
 
     color:white;
 
-    text-decoration:none;
-
     border-radius:50px;
 
     transition:.35s;
@@ -620,7 +654,7 @@ section{
 
     padding:120px 20px;
 
-    background:#f8f4ed;
+    background:#f7f2ea;
 
     text-align:center;
 
@@ -630,7 +664,7 @@ section{
 
     font-family:"Great Vibes",cursive;
 
-    font-size:80px;
+    font-size:82px;
 
     color:#caa24d;
 
@@ -664,13 +698,13 @@ section{
 
 footer{
 
-    padding:30px;
+    background:#efe5d3;
 
     text-align:center;
 
-    background:#efe5d3;
+    padding:30px;
 
-    color:#777;
+    color:#666;
 
 }
 
@@ -679,12 +713,6 @@ footer{
 =================================== */
 
 @media(max-width:768px){
-
-.hero{
-
-height:100vh;
-
-}
 
 .hero h1{
 
@@ -734,7 +762,7 @@ font-size:40px;
 
 }
 
-.card{
+.box{
 
 width:140px;
 
@@ -745,6 +773,12 @@ padding:25px;
 .photos{
 
 grid-template-columns:1fr;
+
+}
+
+.photos img{
+
+height:260px;
 
 }
 
